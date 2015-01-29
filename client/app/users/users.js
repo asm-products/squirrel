@@ -10,7 +10,17 @@ Template.users.helpers({
 });
 
 Template.users.events({
-	"click .delete-user-button": function (event, template) {
+	"click .make-admin": function (event, template) {
+		var button = template.$(event.currentTarget);
+		var user_id = button.attr("data-id");
+		return Meteor.call("make_admin", user_id);
+	},
+	"click .revoke-admin": function (event, template) {
+		var button = template.$(event.currentTarget);
+		var user_id = button.attr("data-id");
+		return Meteor.call("revoke_admin", user_id);
+	},
+	"click .delete": function (event, template) {
 		var button = template.$(event.currentTarget);
 		var user_id = button.attr("data-id");
 		return Meteor.call("remove_user", user_id);

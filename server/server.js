@@ -1,13 +1,15 @@
-// List emails of users who have admin permissions
-// !!!
-// Eventually manage this in the database
+// Emails of users who should have admin permissions out of the box
+// !!! Should load this from an initial config screen
 var admin_emails = [
-	"ajlouie@ux-ninja.com"
+	"ajlouie@ux-ninja.com",
+	"ghh@ddgpartners.com"
 ];
 
 // Check if the given user is an admin
-var is_admin = function (user) {
-	if (user && user.emails && user.emails.length > 0) {
+is_admin = function (user) {
+	if (user && user.is_admin) {
+		return true;
+	} else if (user && user.emails && user.emails.length > 0) {
 		var user_email = user.emails[0].address;
 		var emails = admin_emails.filter(function (admin_email) {
 			return admin_email === user_email;
@@ -22,6 +24,41 @@ Meteor.methods({
 	is_admin: function () {
 		var user = Meteor.user();
 		return is_admin(user);
+	},
+	edit_user: function (id, name) {
+		var current_user = Meteor.user();
+
+		if (current_user) {
+			if (is_admin(current_user)) {
+				Meteor.users.update(id, {
+					profile: {
+						name: name
+					}
+				});			
+			}
+		}
+	},
+	make_admin: function (id) {
+		var current_user = Meteor.user();
+
+		if (current_user) {
+			if (is_admin(current_user)) {
+				Meteor.users.update(id, {
+					$set: {is_admin: true}
+				});
+			}
+		}
+	},
+	revoke_admin: function (id) {
+		var current_user = Meteor.user();
+
+		if (current_user) {
+			if (is_admin(current_user)) {
+				Meteor.users.update(id, {
+					$set: {is_admin: false}
+				});
+			}
+		}
 	},
 	remove_user: function (id) {
 		var current_user = Meteor.user();

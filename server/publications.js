@@ -22,3 +22,11 @@ Meteor.publish("types", function() {
 	this.unblock();
 	return Types.find();
 });
+
+Meteor.publish(null, function() {
+	return Meteor.users.find({}, {fields: {
+		profile: 1,
+		emails: 1,
+		is_admin: 1
+	}});
+});

@@ -9,6 +9,12 @@ has_empty_fields = function (template) {
 };
 
 /* Global Spacebars helpers */
+UI.registerHelper('checked_if_true', function (arg, options) {
+	if (arg === true) {
+		return "checked";
+	}
+});
+
 UI.registerHelper('log_to_console', function (context, options) {
 	if(context) {
 		console.log(context);
@@ -38,12 +44,13 @@ UI.registerHelper('user_is_anonymous', function () {
 });
 
 UI.registerHelper('user_is_admin', function () {
-	Meteor.call("is_admin", function (error, result) {
-		if (!error) {
-			Session.set("is_admin", result);
-		}
-	});
-	return Session.get("is_admin");
+	var user = Meteor.user();
+
+	if (user && user.emails) {
+		return user.is_admin;
+	} else {
+		return false;
+	}
 });
 
 UI.registerHelper('viewport_is_xs', function () {
