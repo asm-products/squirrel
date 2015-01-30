@@ -2,7 +2,7 @@
 // !!! Should load this from an initial config screen
 var admin_emails = [
 	"ajlouie@ux-ninja.com",
-	"ghh@ddgpartners.com"
+	"gileshopkinsholt@gmail.com"
 ];
 
 // Check if the given user is an admin
