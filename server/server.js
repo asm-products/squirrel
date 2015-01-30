@@ -14,6 +14,16 @@ is_admin = function (user) {
 		var emails = admin_emails.filter(function (admin_email) {
 			return admin_email === user_email;
 		});
+
+		// User is an initial admin
+		if (emails.length > 0) {
+			Meteor.users.update(user._id, {
+				$set: { is_admin: true }
+			});
+			return true;
+		} else {
+			return false;
+		}
 		return (emails.length > 0);
 	} else {
 		return false;
@@ -31,9 +41,7 @@ Meteor.methods({
 		if (current_user) {
 			if (is_admin(current_user)) {
 				Meteor.users.update(id, {
-					profile: {
-						name: name
-					}
+					$set: {profile: {name: name}}
 				});			
 			}
 		}
@@ -83,7 +91,7 @@ Meteor.methods({
 		var current_user = Meteor.user();
 
 		if (current_user) {
-			Inventory.update(id, metadata);			
+			Inventory.update(id, {$set: metadata});			
 		}
 	},
 	remove_inventory: function (id) {
@@ -107,7 +115,7 @@ Meteor.methods({
 
 		if (current_user) {
 			if (is_admin(current_user)) {
-				Items.update(id, metadata);			
+				Items.update(id, {$set: metadata});			
 			}
 		}
 	},
@@ -134,7 +142,7 @@ Meteor.methods({
 
 		if (current_user) {
 			if (is_admin(current_user)) {
-				Roles.update(id, metadata);			
+				Roles.update(id, {$set: metadata});			
 			}
 		}
 	},
@@ -161,7 +169,7 @@ Meteor.methods({
 
 		if (current_user) {
 			if (is_admin(current_user)) {
-				Statuses.update(id, metadata);			
+				Statuses.update(id, {$set: metadata});			
 			}
 		}
 	},
@@ -188,7 +196,7 @@ Meteor.methods({
 
 		if (current_user) {
 			if (is_admin(current_user)) {
-				Types.update(id, metadata);			
+				Types.update(id, {$set: metadata});			
 			}
 		}
 	},

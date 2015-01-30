@@ -46,8 +46,16 @@ UI.registerHelper('user_is_anonymous', function () {
 UI.registerHelper('user_is_admin', function () {
 	var user = Meteor.user();
 
-	if (user && user.emails) {
-		return user.is_admin;
+	// if (user && user.hasOwnProperty("is_admin")) {
+	// 	return user.is_admin;
+	// } else
+	if (user) {
+		Meteor.call("is_admin", function (error, result) {
+			if (!error) {
+				Session.set("is_admin", result);
+			}
+		});
+		return Session.get("is_admin");
 	} else {
 		return false;
 	}

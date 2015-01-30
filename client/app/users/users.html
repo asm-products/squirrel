@@ -26,14 +26,19 @@
 				<td>
 					{{#if is_admin}}
 						<span class="fa fa-check"></span> <span class="text-allcaps">Admin</span>
-						<a class="btn btn-default revoke-admin" data-id="{{_id}}">Revoke</a>
+						{{#if is_this_user}}{{! Prevent admin from deleting themselves & locking themselves out }}
+						{{else}}
+							<a class="btn btn-default revoke-admin" data-id="{{_id}}">Revoke</a>
+						{{/if}}
 					{{else}}
 						<a class="btn btn-default make-admin" data-id="{{_id}}">Make admin</a>
 					{{/if}}
 				</td>
 				<td>
-					<a class="btn btn-default edit" href="#edit_{{_id}}" data-id="{{_id}}"><span class="fa fa-edit"></span></a>
-					<a class="btn btn-default delete" data-id="{{_id}}"><span class="fa fa-trash-o"></span></a>
+					{{#if is_this_user}}
+					{{else}}
+						<a class="btn btn-default delete" data-id="{{_id}}"><span class="fa fa-trash-o"></span></a>
+					{{/if}}
 				</td>
 			</tr>
 		{{/each}}
@@ -72,43 +77,38 @@
 <template name="user">
 	{{#with currentUser}}
 		{{#if profile}}
-			<div class="container margin-2">
+
+			<h1>About you</h1>
+			<form id="user_profile_form" role="form">
 				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<h2>About you</h2>
-					</div>
-				</div>
-				<div class="row">
-					<form id="user_profile_form" role="form">
-						<div class="container">
-							<div class="row">
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div class="panel panel-default border-gray-10">
-										<div class="panel-body bg-gray-10">
+					<div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 margin-4">
+						<div class="panel panel-default border-gray-10">
+							<div class="panel-body bg-gray-10">
 
 
-											<h3 class="margin-top-none padding-none border-none">Basic info</h3>
-											<div class="row margin-2">
-												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-													<div class="form-group">
-														<input type="text" class="form-control" required="required"
-															name="display_name" placeholder="Your name" value="{{profile.name}}">
-													</div>
-												</div>
-											</div>
-
-											<button class="btn btn-primary disabled" id="user_profile_save">Save</button>
-											<button class="btn btn-default" id="user_profile_cancel">Cancel</button>
+								<h2 class="margin-top-none padding-none border-none">Basic info</h2>
+								<div class="row margin-2">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="form-group">
+											<label>Email</label>
+											{{#if emails}} {{#with emails.[0]}} {{address}} {{/with}} {{/if}}
+										</div>
+										<div class="form-group">
+											<label>Your name</label>
+											<input type="text" class="form-control" required="required"
+												name="display_name" placeholder="Your name" value="{{profile.name}}">
 										</div>
 									</div>
 								</div>
+
+								<button class="btn btn-primary disabled" id="user_profile_save">Save</button>
+								<button class="btn btn-default" id="user_profile_cancel">Cancel</button>
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
-			</div>
+			</form>
 		{{else}}
-			{{log_to_console this}}
 			{{#loading}}
 				Loading your profile details...
 			{{/loading}}
