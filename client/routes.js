@@ -1,6 +1,5 @@
 // Routes
 
-
 // User Screens
 
 Router.route('/', function () {
@@ -93,4 +92,10 @@ Router.route('/admin/type/:_id', function () {
 		data: type,
 		to: 'content'
 	});
+});
+
+// Styleguide
+
+Router.route('/styleguide', function () {
+	this.render('styleguide');
 });
