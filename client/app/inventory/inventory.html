@@ -1,0 +1,129 @@
+<template name="inventory">
+
+	<h1>Manage inventory</h1>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Item</th>
+				<th>User</th>
+				<th>Type</th>
+				<th>Status</th>
+				<th>Quantity</th>
+				<th>Restock quantity</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+		{{> add_inventory}}
+		{{#each inventory}}
+			{{> view_inventory}}
+			{{> edit_inventory}}
+		{{/each}}
+		</tbody>
+	</table>
+</template>
+
+<template name="view_inventory">
+	<tr id="view_{{_id}}">
+		<td>{{_id}}</td>
+		<td>{{item_obj.name}}</td>
+		<td>{{role_obj.name}}</td>
+		<td>{{type_obj.name}}</td>
+		<td>{{status_obj.name}}</td>
+		<td>{{quantity}}</td>
+		<td>{{restock}}</td>
+		<td>
+			<a class="btn btn-default edit" href="#edit_{{_id}}" data-id="{{_id}}"><span class="fa fa-edit"></span></a>
+			<a class="btn btn-default delete" data-id="{{_id}}"><span class="fa fa-trash-o"></span></a>
+		</td>
+	</tr>
+</template>
+
+<template name="add_inventory">
+	<tr id="add_inventory">
+		<td><span class="btn btn-text disabled">Auto-generated</span></td>
+		<td>
+			<select class="form-control" name="item">
+				<option value="">Select item</option>
+				{{#each items}}
+					<option value="{{_id}}">{{name}}</option>
+				{{/each}}
+			</select>
+		</td>
+		<td>
+			<select class="form-control" name="role">
+				<option value="">Select user</option>
+				{{#each roles}}
+					<option value="{{_id}}">{{name}}</option>
+				{{/each}}
+			</select>
+		</td>
+		<td>
+			<select class="form-control" name="type">
+				<option value="">Select type</option>
+				{{#each types}}
+					<option value="{{_id}}">{{name}}</option>
+				{{/each}}
+			</select>
+		</td>
+		<td>
+			<select class="form-control" name="status">
+				<option value="">Select status</option>
+				{{#each statuses}}
+					<option value="{{_id}}">{{name}}</option>
+				{{/each}}
+			</select>
+		</td>
+		<td><input type="text" class="form-control" placeholder="Quantity" name="quantity"></td>
+		<td><input type="text" class="form-control" placeholder="Restock quantity" name="restock"></td>
+		<td>
+			<button class="btn btn-primary disabled" id="add"><span class="fa fa-plus text-white"></span> Add</button>
+		</td>
+	</tr>
+</template>
+
+<template name="edit_inventory">
+	<tr id="edit_{{_id}}" class="hidden">
+		<td><span class="btn btn-text disabled">{{_id}}</span></td>
+		<td>
+			<select class="form-control" name="item">
+				<option value="">Select item</option>
+				{{#each items}}
+					<option value="{{_id}}" {{selected_if_eq _id ../item}}>{{name}}</option>
+				{{/each}}
+			</select>
+		</td>
+		<td>
+			<select class="form-control" name="role">
+				<option value="">Select user</option>
+				{{#each roles}}
+					<option value="{{_id}}" {{selected_if_eq _id ../role}}>{{name}}</option>
+				{{/each}}
+			</select>
+		</td>
+		<td>
+			<select class="form-control" name="type">
+				<option value="">Select type</option>
+				{{#each types}}
+					<option value="{{_id}}" {{selected_if_eq _id ../type}}>{{name}}</option>
+				{{/each}}
+			</select>
+		</td>
+		<td>
+			<select class="form-control" name="status">
+				<option value="">Select status</option>
+				{{#each statuses}}
+					<option value="{{_id}}" {{selected_if_eq _id ../status}}>{{name}}</option>
+				{{/each}}
+			</select>
+		</td>
+		<td><input type="text" class="form-control" placeholder="Quantity" name="quantity" value="{{quantity}}"></td>
+		<td><input type="text" class="form-control" placeholder="Restock quantity" name="restock" value="{{restock}}"></td>
+		<td>
+			<button class="btn btn-primary disabled save" data-id="{{_id}}">Save</button>
+			<button class="btn btn-default cancel" data-id="{{_id}}">Cancel</button>
+		</td>
+	</tr>
+</template>

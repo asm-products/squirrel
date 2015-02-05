@@ -1,0 +1,53 @@
+<template name="items">
+
+	<h1>Edit item types</h1>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+		{{> add_item}}
+		{{#each items}}
+			{{> view_item}}
+			{{> edit_item}}
+		{{/each}}
+		</tbody>
+	</table>
+</template>
+
+<template name="view_item">
+	<tr id="view_{{_id}}">
+		<td>{{_id}}</td>
+		<td>{{name}}</td>
+		<td id="view_{{_id}}">
+			<a class="btn btn-default edit" href="#edit_{{_id}}" data-id="{{_id}}"><span class="fa fa-edit"></span></a>
+			<a class="btn btn-default delete" data-id="{{_id}}"><span class="fa fa-trash-o"></span></a>
+		</td>
+	</tr>
+</template>
+
+<template name="add_item">
+	<tr id="add_item">
+		<td><span class="btn btn-text disabled">Auto-generated</span></td>
+		<td><input type="text" class="form-control" placeholder="Enter name of item" name="name"></td>
+		<td>
+			<button class="btn btn-primary disabled" id="add"><span class="fa fa-plus text-white"></span> Add</button>
+		</td>
+	</tr>
+</template>
+
+<template name="edit_item">
+	<tr id="edit_{{_id}}" class="hidden">
+		<td><span class="btn btn-text disabled">{{_id}}</span></td>
+		<td><input type="text" class="form-control" placeholder="Enter name of item" name="name" value="{{name}}"></td>
+		<td>
+			<button class="btn btn-primary disabled save" data-id="{{_id}}">Save</button>
+			<button class="btn btn-default cancel" data-id="{{_id}}">Cancel</button>
+		</td>
+	</tr>
+</template>

@@ -1,0 +1,53 @@
+<template name="admin">
+{{#if user_is_admin}}
+	{{> nav}}
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-2 col-md-3 col-sm-3 hidden-xs"> 
+				{{> admin_nav}}
+			</div>
+			<div class="col-xs-12 hidden-lg hidden-md hidden-sm">
+				<a class="btn btn-sm btn-block btn-link" data-toggle="collapse" href="#admin_nav" aria-expanded="false" aria-controls="admin_nav">
+					<span class="fa fa-angle-down"></span> MENU <span class="fa fa-angle-down"></span>
+				</a>
+				<div class="collapse bg-gray-5" id="admin_nav">
+					{{> admin_nav}}
+				</div>
+			</div>
+			<div class="col-lg-10 col-md-9 col-sm-9 col-xs-12"> 
+				{{> yield "content"}}
+			</div>
+		</div>
+	</div>
+{{else}}
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="alert alert-danger text-center padding-4">
+					<p class="font-primary text-lg font-bold text-center">Sorry, you don't have permissions to view this screen.</p>
+					<a class="btn btn-lg btn-danger" href="/">Back to the home page</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{{/if}}
+</template>
+
+<template name="admin_nav">
+	<ul class="nav nav-pills nav-stacked">
+		<li role="navigation"><a href="/admin">Admin home</a></li>
+		<li role="navigation"><a href="/admin/items">Items</a></li>
+		<li role="navigation"><a href="/admin/roles">Roles</a></li>
+		<li role="navigation"><a href="/admin/statuses">Statuses</a></li>
+		<li role="navigation"><a href="/admin/types">Types</a></li>
+		<li role="navigation"><a href="/admin/users">Users</a></li>
+	</ul>
+</template>
+
+<template name="admin_home">
+
+	<h1>Admin home</h1>
+
+</template>
+
